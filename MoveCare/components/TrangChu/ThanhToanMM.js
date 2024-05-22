@@ -6,15 +6,19 @@ import { PRIMARY } from "../../assets/style/style-global";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 
-export const ThanhToanMM = ({price}) => {
-  // Generate your QR code image URL or import it from a source
+export const ThanhToanMM = ({route}) => {
+
+  const { item,cost } = route.params;
+
+
+  
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Queyeets mã QR sau với app ngân hàng của bạn</Text>
+      <Text style={styles.title}>Quét mã QR sau với app ngân hàng của bạn</Text>
       <Text style={styles.title}>Chủ taì khoản: Vũ Quang Huy</Text>
       <Text style={styles.title}>0984218xxx</Text>
-      <Text style={styles.title}>Số tiền: 2000 đ </Text>
+      <Text style={styles.title}>Số tiền: {cost} đồng</Text>
 
 
       <Image

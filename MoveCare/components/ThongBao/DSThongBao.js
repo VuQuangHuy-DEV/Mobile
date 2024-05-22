@@ -43,9 +43,9 @@ const DSThongBao = ({navigation}) => {
 
  
 
-  const handleDetail = (id) => {
-    console.log("Da click vao bai post co id " + id);
-    navigation.navigate("ChiTietTB", { idpost: id }); // Navigate đến màn hình ScreenB trong cùng một Stack Navigator
+  const handleDetail = (item) => {
+    console.log("Da click vao bai post co id " + item.id);
+    navigation.navigate("ChiTietTB", { noti: item }); // Navigate đến màn hình ScreenB trong cùng một Stack Navigator
   };
 
   return (
@@ -59,7 +59,7 @@ const DSThongBao = ({navigation}) => {
               styles.notificationItem,
               { backgroundColor: item.read ? "#e0e0e0" : "#ffffff" },
             ]}
-            onPress={() => handleDetail(item.id)}
+            onPress={() => handleDetail(item)}
           >
             <Text style={styles.notificationTitle}>Tiêu đề: {item.tieu_de}</Text>
             <Text style={styles.notificationDescription}>Nội dung: {item.mota_ngan}</Text>

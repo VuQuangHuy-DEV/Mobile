@@ -177,7 +177,7 @@ export default function GiaoDich({ route,navigation }) {
  
  
 
-  const unitPrice = 100000; // Đơn giá
+  const unitPrice = item.price * 1000; // Đơn giá
   const hours = calculateTotalCost; // Số giờ
   const totalCost = calculateTotalCost(unitPrice, totalHours);
   console.log("Tổng tiền:", totalCost);
@@ -217,7 +217,7 @@ export default function GiaoDich({ route,navigation }) {
   const handleDatDichVu = async () => {
 
    if (selectedButton === "Chuyen")
-     navigation.navigate('Thanh Toán MM',{})
+     navigation.navigate('Thanh Toán MM',{ item: item,cost:totalCost })
    else{
 
    
@@ -234,12 +234,14 @@ export default function GiaoDich({ route,navigation }) {
         dia_chi_lam_viec:text,
        
       });
-      Alert.alert("Success", "Bài post đã được tạo thành công");
+      setShowModal(true);
+      setMessage("Đặt dịch vụ thành công bạn có thể theo dõi đơn hàng tại phần Lịch sử")
     } catch (error) {
+      setShowModal(true);
+      setMessage("Vui lòng nhập đầy đủ thông tin bên dưới")
   
     }
-    setShowModal(true);
-    setMessage("Đặt dịch vụ thành công bạn có thể theo dõi đơn hàng tại phần Lịch sử")
+ 
   }};
 
   return (
@@ -252,7 +254,7 @@ export default function GiaoDich({ route,navigation }) {
           <Text style={{ fontSize: 25 }}>Loại dịch vụ: {item.name}</Text>
         </View>
         <View style={{ width: "100%", marginLeft: "5%", marginVertical: 6 }}>
-          <Text style={{ fontSize: 25 }}>Đơn Giá: {item.price}</Text>
+          <Text style={{ fontSize: 25 }}>Đơn Giá: {item.price}.000 / H</Text>
         </View>
         <View
           style={{

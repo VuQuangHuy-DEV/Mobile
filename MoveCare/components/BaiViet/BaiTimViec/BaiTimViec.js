@@ -7,6 +7,9 @@ export default function BaiTimViec({ baidang, show }) {
 
   show == true ? show = true : show = baidang.da_duyet
 
+
+
+
  
   return (
     show ? <View

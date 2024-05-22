@@ -17,8 +17,7 @@ import { API_ROOT } from "../../../config-global";
 import { PRIMARY } from "../../../assets/style/style-global";
 
 const API_LIST_BAI = API_ROOT + "booking/posts/";
-
-const API_Find_By_user = `booking/posts/bykhachhang/4f2ef95b-fdf1-46a5-be39-de0aeb96f918/`;
+const API_FIND_BY_USER = API_ROOT + "booking/posts/bykhachhang/";
 
 export default function BaiThueS({ navigation }) {
   const [dsbaiDang, setDSBaiDang] = useState([]);
@@ -38,18 +37,15 @@ export default function BaiThueS({ navigation }) {
   const handleFindByUsser = useCallback(async () => {
     const khid = await getData("ID");
     try {
-      const response = await axios.get(
-        `${API_ROOT}
-        /`
-      );
+      const response = await axios.get(`${API_FIND_BY_USER}${khid}/`);
       const data = response.data.data;
       setDSBaiDang(data);
       setShow(true);
-      console.log(setDSBaiDang);
+      console.log(dsbaiDang);  // Log the actual state value
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [dsbaiDang]);  // Add dsbaiDang as dependency if you want to log the updated state
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -58,8 +54,6 @@ export default function BaiThueS({ navigation }) {
 
     return unsubscribe;
   }, [navigation, getAllDSBaiDang]);
-
-
 
   const handleCreate = () => {
     navigation.navigate("Create");
@@ -72,9 +66,17 @@ export default function BaiThueS({ navigation }) {
     });
   };
 
-  const handleSearch = () => {
-    console.log("Đã tìm kiếm với từ khóa:", searchText);
-  };
+  const handleSearch = useCallback(async () => {
+    try {
+      const response = await axios.get(!searchText=="" ? `${API_LIST_BAI}title/${searchText}/`:`${API_LIST_BAI}title/ /`);
+      const data = response.data.data;
+      setDSBaiDang(data);
+      setShow(false)
+      console.log(dsbaiDang);  // Log the actual state value
+    } catch (error) {
+      console.log(error);
+    }
+  }, [searchText, dsbaiDang]);  // Add searchText and dsbaiDang as dependencies if you want to log the updated state
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 10 }}>
@@ -94,7 +96,6 @@ export default function BaiThueS({ navigation }) {
           onPress={handleFindByUsser}
           title="Bài viết của bạn"
           color={PRIMARY.main}
-          
         />
       </View>
       <View
@@ -125,11 +126,7 @@ export default function BaiThueS({ navigation }) {
             key={baidang.id}
             onPress={() => handleDetail(baidang.id)}
           >
-            <BaiThue
-              show={show}
-              baidang={baidang}
-             
-            />
+            <BaiThue show={show} baidang={baidang} />
           </TouchableOpacity>
         ))}
       </ScrollView>

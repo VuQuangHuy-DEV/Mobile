@@ -42,9 +42,11 @@ export default function GiaoDichS({ navigation }) {
       onPress={() => navigation.navigate("ChiTietGiaoDich", { item: item })}
     >
       <View style={styles.orderItem}>
-        <Text style={styles.serviceName}>{item.serviceName}</Text>
-        <Text>Date: {item.ghi_chu}</Text>
+        <Text style={styles.serviceName}>Thời gian: {item.thoi_gian_lam_viec}</Text>
+        <Text>Ghi chú: {item.ghi_chu}</Text>
         <Text>Price: ${item.gia_tri}</Text>
+        <Text>Trạng thái <Text style={{color:item.trang_thai == "Chờ xác nhận" ? "red":"green"}}>{item.trang_thai}</Text></Text>
+
       </View>
     </TouchableOpacity>
   );
