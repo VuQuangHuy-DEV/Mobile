@@ -68,7 +68,7 @@ LocaleConfig.locales["vi"] = {
 LocaleConfig.defaultLocale = "vi";
 
 export default function GiaoDich({ route,navigation }) {
-  const { item } = route.params;
+  const { item ,post} = route.params;
 
 
   // Model
@@ -87,7 +87,7 @@ export default function GiaoDich({ route,navigation }) {
 
 
   // lấy giá trị địa chỉ
-  const [text, setText] = useState("");
+  const [text, setText] = useState(post.dia_chi);
 
   // chọn ngày tháng và thể hiện ngày tháng
   const [modalVisible, setModalVisible] = useState(false);
@@ -106,10 +106,23 @@ export default function GiaoDich({ route,navigation }) {
   };
 
   const onDayPress = (day) => {
-    setSelectedDate(day.dateString);
-    setTextInputValue(day.dateString);
-    hideDatePicker();
+    const selectedDateString = day.dateString;
+    const currentDate = new Date();
+    console.log(currentDate)
+    const selectedDate = new Date(selectedDateString);
+  
+    // Loại bỏ phần giờ, phút và giây từ ngày hiện tại và ngày được chọn
+    currentDate.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+  
+    // Kiểm tra nếu ngày được chọn là ngày hiện tại hoặc sau đó
+    if (selectedDate >= currentDate) {
+      setSelectedDate(selectedDateString);
+      setTextInputValue(selectedDateString);
+      hideDatePicker();
+    }
   };
+  
 
   // Hàm để chuyển đổi định dạng ngày
   const formatDate = (dateString) => {
@@ -177,7 +190,7 @@ export default function GiaoDich({ route,navigation }) {
  
  
 
-  const unitPrice = item.price * 1000; // Đơn giá
+  const unitPrice = item.price; // Đơn giá
   const hours = calculateTotalCost; // Số giờ
   const totalCost = calculateTotalCost(unitPrice, totalHours);
   console.log("Tổng tiền:", totalCost);
@@ -254,7 +267,7 @@ export default function GiaoDich({ route,navigation }) {
           <Text style={{ fontSize: 25 }}>Loại dịch vụ: {item.name}</Text>
         </View>
         <View style={{ width: "100%", marginLeft: "5%", marginVertical: 6 }}>
-          <Text style={{ fontSize: 25 }}>Đơn Giá: {item.price}.000 / H</Text>
+          <Text style={{ fontSize: 25 }}>Đơn Giá: {item.price} / giờ</Text>
         </View>
         <View
           style={{
@@ -290,6 +303,7 @@ export default function GiaoDich({ route,navigation }) {
               paddingLeft: 10,
               borderRadius: 5,
             }}
+            value={text}
             onChangeText={(text) => {
               console.log("Giá trị của TextInput:", text);
               setText(text); // Cập nhật giá trị của TextInput vào state

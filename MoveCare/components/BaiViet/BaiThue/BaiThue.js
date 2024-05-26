@@ -6,92 +6,130 @@ import { PRIMARY } from "../../../assets/style/style-global";
 
 export default function BaiThue({ baidang, show }) {
 
-  show == true ? show = true : show = baidang.da_duyet
+  show == true ? show = true : show =  (baidang.da_duyet==1)
 
- 
+
   return (
     show ? <View
-    key={baidang.id}
-    style={{
-      padding: 15,
-      flexDirection: "row",
-      borderWidth: 1,
-      borderColor: "black",
-      borderRadius: 10, // Độ cong của border
-      margin: 5,
-    }}
-  >
-    <Image
-      source={{uri: baidang.khach_hang_id.anh_dai_dien}} // Đường dẫn đến hình ảnh
-      style={styles.avatar} // Kích thước của hình ảnh
-    />
-    <View
+      key={baidang.id}
       style={{
-        flex: 1,
-        marginRight: 10,
+        padding: 15,
+        flexDirection: "row",
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 10, // Độ cong của border
+        margin: 5,
       }}
     >
-      <Text
-        style={{
-          color: PRIMARY.main,
-          fontSize: 20,
-          fontWeight: "bold",
-        }}
-      >
-       {baidang.tieu_de}
-      </Text>
- 
+      <Image
+        source={{ uri: baidang.khach_hang_id.anh_dai_dien }} // Đường dẫn đến hình ảnh
+        style={styles.avatar} // Kích thước của hình ảnh
+      />
       <View
         style={{
-          height: 1,
-          backgroundColor: "black",
-          marginBottom: 5,
+          flex: 1,
+          marginRight: 10,
         }}
-      />
-      <Text style={styles.title}>Người đăng: {baidang.khach_hang_id.ho_ten}</Text>
-      <View>
+      >
         <Text
           style={{
-            color: "black",
-            fontSize: 15,
-            fontWeight: "500",
+            color: PRIMARY.main,
+            fontSize: 20,
+            fontWeight: "bold",
           }}
         >
-          Mô tả: {baidang.mo_ta_ngan}
+          {baidang.tieu_de}
         </Text>
-      </View>
-      <View>
-        <Text>Địa chỉ: {baidang.dia_chi}</Text>
-      </View>
-      <View style={{ flexDirection: "row", marginTop: 5 }}>
-        <Text
+
+        <View
           style={{
-            color: "black",
-            fontSize: 12,
-            marginRight: 10,
+            height: 1,
+            backgroundColor: "black",
+            marginBottom: 5,
           }}
-        >
-          Đã kiểm duyệt duyệt:
-        </Text>
-        {baidang.da_duyet ? (
-          <Icon
-            source="check-outline"
-            color={PRIMARY.main}
-            size={20}
-          />
-        ) : (
-          <Icon
-            source="comment-remove"
-            color={MD3Colors.error50}
-            size={20}
-          />
-        )}
+        />
+        <Text style={styles.title}>Người đăng: {baidang.khach_hang_id.ho_ten}</Text>
+        <View>
+          <Text
+            style={{
+              color: "black",
+              fontSize: 15,
+              fontWeight: "500",
+            }}
+          >
+            Mô tả: {baidang.mo_ta_ngan}
+          </Text>
+        </View>
+        <View>
+          <Text>Thời gian: {baidang.thoi_gian}</Text>
+        </View>
+        <View>
+          <Text>Địa chỉ: {baidang.dia_chi}</Text>
+        </View>
+
+        {baidang.da_duyet == 0 &&
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 12,
+                marginRight: 10,
+              }}
+            >
+              Đang chờ kiểm duyệt:
+            </Text>
+
+            <Icon
+              source="alarm-snooze"
+              color={PRIMARY.main}
+              size={20}
+            />
+          </View>
+        }
+        {baidang.da_duyet == 1 &&
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 12,
+                marginRight: 10,
+              }}
+            >
+              Đã được kiểm duyệt:
+            </Text>
+
+            <Icon
+              source="check-outline"
+              color={PRIMARY.main}
+              size={20}
+            />
+          </View>
+        }
+        {baidang.da_duyet == 2 &&
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 12,
+                marginRight: 10,
+              }}
+            >
+              Từ chối với lý do: <Text style = {{color:"red"}}>{baidang.ly_do}</Text>
+            </Text>
+            
+            <Icon
+              source="comment-remove"
+              color="red"
+              size={20}
+            />
+          </View>
+        }
+
+
       </View>
-     
     </View>
-  </View>
-  : null
-   
+      : null
+
   );
 }
 

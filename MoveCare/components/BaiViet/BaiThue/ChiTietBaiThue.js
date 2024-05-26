@@ -36,8 +36,11 @@ export default ChiTietBaiThue = ({ route,navigation }) => {
   }, []);
 
   const handleBooking = ()=>{
-      navigation.navigate("BaiTimViecMoi")
-      console.log("Clicked")
+    var item = {
+      name: "Thuê từ bài tìm việc",
+      price : post.gia
+    }
+    navigation.navigate("GiaoDich",{item : item, post: post})
   }
 
   return (

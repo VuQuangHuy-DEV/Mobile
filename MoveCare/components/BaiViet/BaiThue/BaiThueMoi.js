@@ -8,6 +8,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
+  TouchableWithoutFeedback, // Import thư viện này
+  Keyboard
 } from "react-native";
 import axios from "axios";
 import { getData } from "../../../helper/StoregeHelper";
@@ -72,7 +74,7 @@ const BaiThueMoi = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   // lấy giá trị địa chỉ
-  const [text, setText] = useState("");
+  const [diaChi, setDiaChi] = useState("");
 
   // chọn ngày tháng và thể hiện ngày tháng
 
@@ -90,10 +92,23 @@ const BaiThueMoi = () => {
   };
 
   const onDayPress = (day) => {
-    setSelectedDate(day.dateString);
-    setTextInputValue(day.dateString);
-    hideDatePicker();
+    const selectedDateString = day.dateString;
+    const currentDate = new Date();
+    console.log(currentDate)
+    const selectedDate = new Date(selectedDateString);
+
+    // Loại bỏ phần giờ, phút và giây từ ngày hiện tại và ngày được chọn
+    currentDate.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    // Kiểm tra nếu ngày được chọn là ngày hiện tại hoặc sau đó
+    if (selectedDate >= currentDate) {
+      setSelectedDate(selectedDateString);
+      setTextInputValue(selectedDateString);
+      hideDatePicker();
+    }
   };
+
 
   // Hàm để chuyển đổi định dạng ngày
   const formatDate = (dateString) => {
@@ -115,8 +130,9 @@ const BaiThueMoi = () => {
         khach_hang_id: id,
         tieu_de: tieuDe,
         chi_tiet: chiTiet,
-        thoi_gian: "2024-04-20", //thoiGian.toISOString().split("T")[0], // Chuyển đổi ngày thành chuỗi yyyy-mm-dd
+        thoi_gian: selectedDate, //thoiGian.toISOString().split("T")[0], // Chuyển đổi ngày thành chuỗi yyyy-mm-dd
         gia: gia,
+        dia_chi: diaChi,
         mo_ta_ngan: moTaNgan,
       });
       Alert.alert("Success", "Bài post đã được tạo thành công");
@@ -133,113 +149,135 @@ const BaiThueMoi = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.inputText}
-        placeholder="Tiêu đề"
-        onChangeText={(text) => setTieuDe(text)}
-        value={tieuDe}
-      />
-      <TextInput
-        style={styles.inputText}
-        placeholder="Mô tả ngắn"
-        onChangeText={(text) => setMoTaNgan(text)}
-        value={moTaNgan}
-      />
-      <TextInput
-        style={styles.inputText}
-        placeholder="Chi tiết"
-        onChangeText={(text) => setChiTiet(text)}
-        value={chiTiet}
-      />
 
-      <View
-        style={{
-          paddingLeft: "5%",
-          paddingTop: 20,
-          paddingBottom: 10,
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <Icon name="calendar-alt" size={20} color="black" />
-        <Text style={{ fontWeight: "bold", fontSize: 15, paddingLeft: 5 }}>
-          Ngày làm việc
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity
-          onPress={showDatePicker}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <TextInput
           style={styles.inputText}
+          placeholder="Tiêu đề"
+          onChangeText={(text) => setTieuDe(text)}
+          value={tieuDe}
+        />
+        <TextInput
+          style={styles.inputText}
+          placeholder="Địa chỉ"
+          onChangeText={(text) => setDiaChi(text)}
+          value={diaChi}
+        />
+        <TextInput
+          style={styles.inputText}
+          placeholder="Mô tả ngắn"
+          onChangeText={(text) => setMoTaNgan(text)}
+          value={moTaNgan}
+        />
+
+
+        <TextInput
+          style={{
+            height: 150,
+            borderColor: "gray",
+            borderWidth: 1,
+            borderRadius: 5,
+            padding: 10,
+            marginLeft: "5%",
+            width: "95%",
+          }}
+          multiline={true}
+          numberOfLines={4}
+          placeholder="Chi tiết"
+          onChangeText={(text) => setChiTiet(text)}
+          value={chiTiet}
+
+        />
+
+        <View
+          style={{
+            paddingLeft: "5%",
+            paddingTop: 20,
+            paddingBottom: 10,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
         >
-          <Text>{formatDate(textInputValue) || "Chọn ngày"}</Text>
-        </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={hideDatePicker}
-        >
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(0,0,0,0.5)",
-            }}
+          <Icon name="calendar-alt" size={20} color="black" />
+          <Text style={{ fontWeight: "bold", fontSize: 15, paddingLeft: 5 }}>
+            Ngày làm việc
+          </Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={showDatePicker}
+            style={styles.inputText}
+          >
+            <Text>{formatDate(textInputValue) || "Chọn ngày"}</Text>
+          </TouchableOpacity>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={hideDatePicker}
           >
             <View
               style={{
-                backgroundColor: "white",
-                padding: 20,
-                borderRadius: 10,
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(0,0,0,0.5)",
               }}
             >
-              <Calendar
-                onDayPress={onDayPress}
-                markedDates={{
-                  [selectedDate]: { selected: true, selectedColor: "blue" },
+              <View
+                style={{
+                  backgroundColor: "white",
+                  padding: 20,
+                  borderRadius: 10,
                 }}
-              />
-              <Button title="Đóng" onPress={hideDatePicker} />
+              >
+                <Calendar
+                  onDayPress={onDayPress}
+                  markedDates={{
+                    [selectedDate]: { selected: true, selectedColor: "blue" },
+                  }}
+                />
+                <Button title="Đóng" onPress={hideDatePicker} />
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
+          </Modal>
+        </View>
 
-      <TextInput
-        style={styles.inputText}
-        placeholder="Giá mong muốn"
-        onChangeText={(text) => setGia(text)}
-        value={gia}
-        keyboardType="numeric"
-      />
+        <TextInput
+          style={styles.inputText}
+          placeholder="Giá mong muốn"
+          onChangeText={(text) => setGia(text)}
+          value={gia ? gia.toLocaleString("vi-VN") : ""}
+          keyboardType="numeric"
+        />
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#2baf66",
-          height: 60,
-          width: "80%",
-          marginLeft: "10%",
-          borderRadius: 10,
-          justifyContent: "center",
-          alignItems: "center",
-          marginVertical:30
-        }}
-        onPress={handleCreatePost}
-      >
-        <Text
+        <TouchableOpacity
           style={{
-            fontSize: 20,
-            color: "white",
-            fontWeight: "bold",
-           
+            backgroundColor: "#2baf66",
+            height: 60,
+            width: "80%",
+            marginLeft: "10%",
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            marginVertical: 30
           }}
+          onPress={handleCreatePost}
         >
-          Đăng bài
-        </Text>
-      </TouchableOpacity>
-    </View>
+          <Text
+            style={{
+              fontSize: 20,
+              color: "white",
+              fontWeight: "bold",
+
+            }}
+          >
+            Đăng bài
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -248,7 +286,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
-    margin:3
+    margin: 3
   },
   input: {
     height: 40,
@@ -269,7 +307,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 50,
     justifyContent: "center",
-    marginVertical:5
+    marginVertical: 5
   },
 });
 

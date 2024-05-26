@@ -65,31 +65,63 @@ export default function BaiTimViec({ baidang, show }) {
       <View>
         <Text>Địa chỉ: {baidang.dia_chi}</Text>
       </View>
-      <View style={{ flexDirection: "row", marginTop: 5 }}>
-        <Text
-          style={{
-            color: "black",
-            fontSize: 12,
-            marginRight: 10,
-          }}
-        >
-          Đã kiểm duyệt duyệt:
-        </Text>
-        {baidang.da_duyet ? (
-          <Icon
-            source="check-outline"
-            color={PRIMARY.main}
-            size={20}
-          />
-        ) : (
-          <Icon
-            source="comment-remove"
-            color={MD3Colors.error50}
-            size={20}
-          />
-        )}
-      </View>
-     
+      {baidang.da_duyet == 0 &&
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 12,
+                marginRight: 10,
+              }}
+            >
+              Đang chờ kiểm duyệt:
+            </Text>
+
+            <Icon
+              source="alarm-snooze"
+              color={PRIMARY.main}
+              size={20}
+            />
+          </View>
+        }
+        {baidang.da_duyet == 1 &&
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 12,
+                marginRight: 10,
+              }}
+            >
+              Đã được kiểm duyệt:
+            </Text>
+
+            <Icon
+              source="check-outline"
+              color={PRIMARY.main}
+              size={20}
+            />
+          </View>
+        }
+        {baidang.da_duyet == 2 &&
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 12,
+                marginRight: 10,
+              }}
+            >
+              Từ chối với lý do: <Text style = {{color:"red"}}>{baidang.ly_do}</Text>
+            </Text>
+            
+            <Icon
+              source="comment-remove"
+              color="red"
+              size={20}
+            />
+          </View>
+        }
     </View>
   </View>
   : null

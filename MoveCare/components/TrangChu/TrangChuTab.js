@@ -24,12 +24,12 @@ const imagesList = [
 ];
 
 const services = [
-  { id: 1, name: "Dọn dẹp định kỳ ", icon: require("../../assets/imgs/donnha-icon.png"), route: "Giao Dịch", price: "100" },
-  { id: 2, name: "Trông em bé", icon: require("../../assets/imgs/trongtre-icon.png"), route: "TrongEmBe", price: "80" },
-  { id: 3, name: "Giúp việc theo tháng", icon: require("../../assets/imgs/repeat-icon.png"), route: "GiupViecThang" ,price: "80"},
-  { id: 4, name: "Dọn dẹp nhà", icon: require("../../assets/imgs/donnha-icon.png"), route: "DonDepNha" },
-  { id: 5, name: "Vệ sinh máy giặt", icon: require("../../assets/imgs/maygiat-icon.png"), route: "VeSinhMayGiat" ,price: "80"},
-  { id: 6, name: "Nấu ăn", icon: require("../../assets/imgs/nauan-icon.png"), route: "NauAn",price: "80" },
+  { id: 1, name: "Dọn dẹp định kỳ ", icon: require("../../assets/imgs/donnha-icon.png"), route: "Giao Dịch", price: "100000" },
+  { id: 2, name: "Trông em bé", icon: require("../../assets/imgs/trongtre-icon.png"), route: "TrongEmBe", price: "80000" },
+  { id: 3, name: "Giúp việc theo tháng", icon: require("../../assets/imgs/repeat-icon.png"), route: "GiupViecThang" ,price: "80000"},
+  { id: 4, name: "Dọn dẹp nhà", icon: require("../../assets/imgs/donnha-icon.png"), route: "DonDepNha",price:"100000" },
+  { id: 5, name: "Vệ sinh máy giặt", icon: require("../../assets/imgs/maygiat-icon.png"), route: "VeSinhMayGiat" ,price: "80000"},
+  { id: 6, name: "Nấu ăn", icon: require("../../assets/imgs/nauan-icon.png"), route: "NauAn",price: "80000" },
 ];
 
 const Slideshow = ({ images }) => {

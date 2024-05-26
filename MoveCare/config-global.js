@@ -6,7 +6,7 @@ host = "https://immortal-molly-free.ngrok-free.app"
 //python any where
 host = 'https://vuquanghuydev.pythonanywhere.com'
 
-let dev = false;
+let dev = true;
 export const API_ROOT = dev ?  'https://immortal-molly-free.ngrok-free.app/api/v1/' :  'https://vuquanghuydev.pythonanywhere.com/api/v1/'
 
 export const appName = "MOVE CARE"
