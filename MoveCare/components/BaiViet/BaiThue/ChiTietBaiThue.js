@@ -79,7 +79,7 @@ export default ChiTietBaiThue = ({ route,navigation }) => {
     
         <View style={{ flexDirection: "row", marginTop: 5 }}>
           <Text style={styles.label}>Giá:</Text>
-          <Text>{post.gia}  đ</Text>
+          <Text> {parseInt(post.gia).toLocaleString()}  đ</Text>
         </View>
         <View>
           <Text>Trạng thái: {post.da_duyet ? "Được duyệt": "Chưa được duyệt"} </Text>

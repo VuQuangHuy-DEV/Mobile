@@ -87,7 +87,7 @@ export default function GiaoDich({ route,navigation }) {
 
 
   // lấy giá trị địa chỉ
-  const [text, setText] = useState(post.dia_chi);
+  const [text, setText] = useState(post?.dia_chi);
 
   // chọn ngày tháng và thể hiện ngày tháng
   const [modalVisible, setModalVisible] = useState(false);
@@ -255,7 +255,7 @@ export default function GiaoDich({ route,navigation }) {
   
     }
  
-  }};
+  }}; 
 
   return (
     <View style={styles.container}>
@@ -267,7 +267,7 @@ export default function GiaoDich({ route,navigation }) {
           <Text style={{ fontSize: 25 }}>Loại dịch vụ: {item.name}</Text>
         </View>
         <View style={{ width: "100%", marginLeft: "5%", marginVertical: 6 }}>
-          <Text style={{ fontSize: 25 }}>Đơn Giá: {item.price} / giờ</Text>
+          <Text style={{ fontSize: 25 }}>Đơn Giá: {parseInt(item.price).toLocaleString()}  / giờ</Text>
         </View>
         <View
           style={{
